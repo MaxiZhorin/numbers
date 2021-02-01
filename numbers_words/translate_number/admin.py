@@ -1,3 +1,14 @@
 from django.contrib import admin
+from .models import Number_word
 
-# Register your models here.
+
+
+
+class StatusAdmin (admin.ModelAdmin):
+    list_display = [field.name for field in Number_word._meta.fields]
+
+    class Meta:
+        model = Number_word
+
+
+admin.site.register(Number_word, StatusAdmin)
