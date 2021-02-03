@@ -5,33 +5,33 @@
 {% endblock %}
 
 {% block content %}
-<div class="alert shadow-lg p-3 mb-5 bg-white rounded mt-4">
-    <h1>Перевести сумму</h1>
+<div class="alert  shadow-lg  mt-4 col-md-6 offset-md-3">
+    <h1 class="text-center">Перевести сумму</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.number }}<br>
-
-
-    <div class="form-group">
-        <div class="form-check">
-            {{ form.nds }}
-           <label class="form-check-label" for="gridCheck">
-                Сумма с НДС(20%)
-            </label>
+        {{ form.number }}
+        <label class="mt-2">Процент НДС</label>
+        {{ form.nds_sum }}
+        <div class="form-group mt-4">
+            <div class="form-check">
+                {{ form.nds }}
+                <label class="form-check-label" for="gridCheck">
+                    НДС
+                </label>
             </div>
         </div>
-  <button type="submit" class="btn btn-primary">Перевести</button>
+        <button type="submit" class="btn btn-primary">Перевести</button>
     </form>
 </div>
-   {% if numbers_list  %}
-       {% for el in numbers_list %}
-             <div class="alert shadow-lg p-3 mb-5 bg-white rounded mt-4">
-                 <p>{{ el.number_sting }}</p>
-             </div>
-       {% endfor %}
-   {% else %}
-        <div class="blockquote text-center alert shadow-lg p-3 mb-5 bg-white rounded">
-                 <h2>История записей пуста</h2>
-             </div>
-    {% endif %}
+{% if numbers_list  %}
+{% for el in numbers_list %}
+<div class="alert shadow-lg p-3 mb-5 bg-white rounded mt-4">
+    <p>{{ el.number_sting }}</p>
+</div>
+{% endfor %}
+{% else %}
+<div class="blockquote text-center alert shadow-lg p-3 col-md-6 offset-md-3 mb-5 bg-white rounded">
+    <h2>История записей пуста</h2>
+</div>
+{% endif %}
 {% endblock %}
