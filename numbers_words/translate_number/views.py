@@ -14,8 +14,7 @@ def index(request):
             # Если форма валидна, создаем экземпляр класса NoteSum
             form_data = form.cleaned_data
             note = NoteSum(form_data['number'], form_data['nds'], form_data['nds_sum'])
-            note.get_int_or_float()  # Проверяем на целое число для чистоты оторбражения
-            note.number_to_words()  # Вызываем метод парсинга на стровую сумму
+            note.number_to_words()  # Вызываем метод парсинга на строковую сумму
             note.create_note_bd()  # Делаем запись в БД
             return HttpResponseRedirect('/')  # Перенаправляем на главную
     form = Number_word_form()

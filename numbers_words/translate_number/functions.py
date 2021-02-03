@@ -11,15 +11,6 @@ class NoteSum:
         self.nds_sum = nds_sum
         self.number_str = ''
 
-    def get_int_or_float(self):
-        # Проверяем на целое число, если нет, то округляем
-        if self.number.is_integer():
-            self.number = int(self.number)
-            return self.number
-        else:
-            self.number = round(self.number, 2)
-            return self.number
-
     def get_sum_str(self, number):
         # Метод парсит стровое значение
         url = 'https://summa-propisyu.ru/?summ=' + str(number) + '&vat=20&val=0&sep=0'
@@ -32,16 +23,17 @@ class NoteSum:
     def number_to_words(self):
         if self.nds:  # Проверяем булевое значение на НДС
             sum_nds1 = self.get_sum_str(self.number)  # Получаем сумму прописью
-            sum_nds2 = self.get_sum_str(self.number / (100 + self.nds_sum) * self.nds_sum)  # Проценты прописью
+            sum_nds2 = (self.number / (100 + self.nds_sum) * self.nds_sum)  # Вычисляем сумму ндс
+            sum_nds2 = self.get_sum_str(round(sum_nds2, 2))
             sum_result = f"{sum_nds1}, включая НДС ({self.nds_sum}%) в сумме {sum_nds2}"
             # Записываем форматированную строку
             self.number_str = sum_result
-            return self
+            return self.number_str
         else:
             # Если флага НДС нет делаем определенную запись
             self.nds_sum = 0
             self.number_str = self.get_sum_str(self.number)
-            return self
+            return self.number_str
 
     def create_note_bd(self):
         # Делаем запись в БД
@@ -51,4 +43,4 @@ class NoteSum:
         new_note.nds_sum = self.nds_sum
         new_note.number_sting = self.number_str
         new_note.save()
-        return self
+        return new_note
